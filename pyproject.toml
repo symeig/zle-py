@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "zlepy"
+dynamic = ["version"]
+description = "Helper library for integer-linear-eigenvalue matrix generation and evaluation."
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["linear algebra", "matrix", "eigenvalue", "integer-linear eigenvalues", "interpretable spectra"]
+authors = [
+  { name = "Abraham Miller", email = "abraham.r.m@gmail.com" }
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = ["numpy", "sympy", "mpmath"]
+
+[project.urls]
+Documentation = "https://github.com/Gamemackerel/ile-matrix-tools#readme"
+Issues = "https://github.com/Gamemackerel/ile-matrix-tools/issues"
+Source = "https://github.com/Gamemackerel/ile-matrix-tools"
+
+[tool.hatch.version]
+path = "src/zlepy/__about__.py"
+
+[tool.hatch.envs.types]
+extra-dependencies = [
+  "mypy>=1.0.0",
+]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/zlepy tests}"
+
+[tool.coverage.run]
+source_pkgs = ["zlepy", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/zlepy/__about__.py",
+]
+
+[tool.coverage.paths]
+zlepy = ["src/zlepy", "*/zlepy/src/zlepy"]
+tests = ["tests", "*/zlepy/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
