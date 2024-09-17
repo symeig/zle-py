@@ -24,7 +24,7 @@ class TestGen(unittest.TestCase):
     def test_argsort(self):
         seq = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
         result = argsort(seq)
-        self.assertEqual(result, [1, 3, 0, 9, 2, 4, 8, 10, 6, 7, 5])
+        self.assertEqual(result, [1, 3, 6, 0, 9, 2, 4, 8, 10, 7, 5])
 
     def test_perm_inverse(self):
         perm = np.array([2, 0, 1])
@@ -34,8 +34,8 @@ class TestGen(unittest.TestCase):
     def test_po_groups(self):
         po = np.array([0, 1, 1, 2, 2, 3, 3, 4])
         result = po_groups(po)
-        expected = [[0, 1, 1, 2, 2, 3, 3, 4]]
-        self.assertEqual(result, expected)
+        expected = np.array([[0, 1, 1, 2, 2, 3, 3, 4]])
+        self.assertTrue(np.array_equal(result, expected))
 
     def test_edges_to_adjacency_list(self):
         edges = [0, 1, 1, 2, 2, 3]
@@ -87,7 +87,7 @@ class TestGen(unittest.TestCase):
     def test_reverse_graph(self):
         graph = {0: [1, 2], 1: [3], 2: [3], 3: []}
         result = reverse_graph(graph)
-        expected = {1: [0], 2: [0], 3: [1, 2], 0: []}
+        expected = {1: [0], 2: [0], 3: [1, 2]}
         self.assertEqual(result, expected)
 
     def test_compute_degrees(self):
