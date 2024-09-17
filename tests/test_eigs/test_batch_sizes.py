@@ -1,5 +1,5 @@
 import unittest
-from zlepy import szleig
+from zlepy import eigs
 import sympy as sp
 import numpy as np
 from tests.testing_utils import validate_eigs
@@ -57,9 +57,9 @@ A_40 = sp.Matrix(
 class TestParallelEigsDifferentBatchSizes(unittest.TestCase):
     
     def test_eig_with_high_batch_size(self):
-        result = szleig(A_40, SYMBOLS_40, batch_size=40)
+        result = eigs(A_40, SYMBOLS_40, batch_size=40)
         self.assertTrue(validate_eigs(result, A_40, SYMBOLS_40))
 
     def test_eig_with_small_batch_size(self):
-        result = szleig(A_40, SYMBOLS_40, batch_size=5)
+        result = eigs(A_40, SYMBOLS_40, batch_size=5)
         self.assertTrue(validate_eigs(result, A_40, SYMBOLS_40))

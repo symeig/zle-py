@@ -2,4 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-from .szleig import szleig
+from .eigs import eigs
+import fgen
+import gen

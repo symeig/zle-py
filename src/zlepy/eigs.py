@@ -7,9 +7,9 @@ import sympy as sp
 from multiprocessing import Pool, cpu_count
 from mpmath import mp
 
-def szleig(A, symbols, parallel=True, batch_size=None, pool_size=cpu_count(), staggered=False, base=10):
+def eigs(A, symbols, parallel=True, batch_size=None, pool_size=cpu_count(), staggered=False, base=10):
     """
-    Symbolic Integer Linear Eigenvalue Solver.
+    Symbolic Eigenvalue Solver (for integer linear eigenvalues).
     Calculates symbolic integer linear eigenvalues for a given compatible matrix.
     Parameters:
        A (2D Matrix): The input symbolic matrix for which eigenvalues are calculated.
@@ -28,11 +28,11 @@ def szleig(A, symbols, parallel=True, batch_size=None, pool_size=cpu_count(), st
 
     if parallel:
         print(f"Calculating eigenvalues in parallel, using {pool_size} processes.")
-        return _szleig_parallel(A, symbols, batch_size, pool_size, staggered, base)
+        return _eigs_parallel(A, symbols, batch_size, pool_size, staggered, base)
     else:
-        return _szleig_synchronous(A, symbols, batch_size, staggered, base)
+        return _eigs_synchronous(A, symbols, batch_size, staggered, base)
 
-def _szleig_parallel(A, symbols, batch_size, pool_size, staggered, base):
+def _eigs_parallel(A, symbols, batch_size, pool_size, staggered, base):
     """
     Calculates symbolic integer linear eigenvalues for a given compatible matrix in parallel.
     """
@@ -57,7 +57,7 @@ def _szleig_parallel(A, symbols, batch_size, pool_size, staggered, base):
     annotated_eigens = eigens*np.array([symbols]*n)
     return sp.Matrix(annotated_eigens)
 
-def _szleig_synchronous(A, symbols, batch_size=None, staggered=False, base=10):
+def _eigs_synchronous(A, symbols, batch_size=None, staggered=False, base=10):
     """
     Calculates symbolic integer linear eigenvalues for a given compatible matrix, without multiprocessing.
     """

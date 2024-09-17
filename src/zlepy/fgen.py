@@ -1,7 +1,5 @@
 import numpy as np
-from collections import defaultdict, deque
 import itertools
-import sympy as sp
 
 def get_po(factors):
     if (len(factors) == 1):

@@ -1,5 +1,5 @@
 import unittest
-from zlepy import szleig
+from zlepy import eigs
 import sympy as sp
 import numpy as np
 from tests.testing_utils import validate_eigs
@@ -24,17 +24,17 @@ A_03s = sp.Matrix(
 class TestEigCoeffs(unittest.TestCase):
     
     def test_eig_with_max_base_case(self):
-        result = szleig(A_03, SYMBOLS_03, batch_size=3, parallel=False, staggered=False)
+        result = eigs(A_03, SYMBOLS_03, batch_size=3, parallel=False, staggered=False)
         self.assertTrue(validate_eigs(result, A_03, SYMBOLS_03))
 
     def test_eig_with_max_staggered(self):
-        result = szleig(A_03s, SYMBOLS_03, batch_size=3, parallel=False, staggered=True)
+        result = eigs(A_03s, SYMBOLS_03, batch_size=3, parallel=False, staggered=True)
         self.assertTrue(validate_eigs(result, A_03s, SYMBOLS_03))
 
     def test_eig_parallel_base_case(self):
-        result = szleig(A_03, SYMBOLS_03, batch_size=3, parallel=True, staggered=False)
+        result = eigs(A_03, SYMBOLS_03, batch_size=3, parallel=True, staggered=False)
         self.assertTrue(validate_eigs(result, A_03, SYMBOLS_03))
 
     def test_eig_parallel_staggered(self):
-        result = szleig(A_03s, SYMBOLS_03, batch_size=3, parallel=True, staggered=True)
+        result = eigs(A_03s, SYMBOLS_03, batch_size=3, parallel=True, staggered=True)
         self.assertTrue(validate_eigs(result, A_03s, SYMBOLS_03))
