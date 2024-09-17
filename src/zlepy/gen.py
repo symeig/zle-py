@@ -1,9 +1,6 @@
 import numpy as np
 import itertools
-from operator import itemgetter
 from collections import defaultdict, deque
-import networkx as nx
-import matplotlib.pyplot as plt
 
 def argsort(seq):
     return sorted(range(len(seq)), key=seq.__getitem__)
@@ -28,21 +25,6 @@ def po_groups(po):
         if (booli):
             groups.append(relation)
     return groups
-
-
-#minimal completion
-def visualize_graph(graph, size=(5, 4)):
-    G = nx.DiGraph()
-    for node, neighbors in graph.items():
-        for neighbor in neighbors:
-            G.add_edge(node, neighbor)
-        if node not in G:
-            G.add_node(node)
-    
-    pos = nx.spring_layout(G)
-    plt.figure(figsize=size)
-    nx.draw(G, pos, with_labels=True, node_size=500, node_color="lightblue", font_size=10, font_color="black", edge_color="gray", arrowsize=20)
-    plt.show()
 
 def edges_to_adjacency_list(edges):
     adjacency_list = defaultdict(list)

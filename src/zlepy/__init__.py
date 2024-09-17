@@ -3,5 +3,5 @@
 # SPDX-License-Identifier: MIT
 
 from .eigs import eigs
-import fgen
-import gen
+from . import gen
+from . import fgen
