@@ -1,4 +1,4 @@
-# ILE Matrix Tools
+# ZLEPY - Integer Linear Eigenvalues Toolkit
 
 [![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
@@ -16,12 +16,12 @@ A Python package to aid in integer-linear-eigenvalue matrix generation and evalu
 
 Eventually:
 ```console
-pip install ile-matrix-tools
+pip install zlepy
 ```
 
 For local development:
 ```console
-pip install -e path/to/ILE-Matrix-Tools
+pip install -e path/to/zlepy
 ```
 
 ## Testing
@@ -35,7 +35,3 @@ Specific test file:
 ```
 hatch test tests/test_batch_sizes.py
 ```
-
-## License
-
-`ile-matrix-tools` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
