@@ -1,6 +1,10 @@
 import numpy as np
 import itertools
+from operator import itemgetter
 from collections import defaultdict, deque
+import networkx as nx
+import matplotlib.pyplot as plt
+import sympy as sp
 
 def argsort(seq):
     return sorted(range(len(seq)), key=seq.__getitem__)
@@ -12,11 +16,11 @@ def perm_inverse(perm):
 
 #can speed-up by taking the fastest algorithm for finding disconnected components
 def po_groups(po):
-    groups = [po[0:2]] #or np.array([po[0:2]],dtype='object') and append as nparray
+    groups = [po[0:2]] 
     for i in range(1,int(len(po)/2)):
         relation = po[2*i:2*i+2]
         booli = 1
-        #can map isin and do this without having to loop through, putting in the 'true' index.
+        #can map isin to avoid looping
         for j in range(len(groups)):
             if (np.any(np.in1d(relation,groups[j]))): #check if any node in relation belongs to given group j
                 groups[j]=np.append(groups[j], tuple(relation)) #add to group if so, then break
@@ -25,6 +29,21 @@ def po_groups(po):
         if (booli):
             groups.append(relation)
     return groups
+
+
+#minimal completion
+def visualize_graph(graph, size=(5, 4)):
+    G = nx.DiGraph()
+    for node, neighbors in graph.items():
+        for neighbor in neighbors:
+            G.add_edge(node, neighbor)
+        if node not in G:
+            G.add_node(node)
+    
+    pos = nx.spring_layout(G)
+    plt.figure(figsize=size)
+    nx.draw(G, pos, with_labels=True, node_size=500, node_color="lightblue", font_size=10, font_color="black", edge_color="gray", arrowsize=20)
+    plt.show()
 
 def edges_to_adjacency_list(edges):
     adjacency_list = defaultdict(list)
@@ -308,8 +327,6 @@ def get_perms(n, nodes, above_below, levels):
 
 #2 macro methods for user convenience
 def fixed_perms(group_pos, group_nodes):
-    print("group nodes: ", group_nodes)
-    
     #topo sort is used in the transitive reduction
     filtered_graph = [add_missing_nodes(transitive_reduction(j)) for j in [edges_to_adjacency_list(i) for i in group_pos]]
     
@@ -320,7 +337,7 @@ def fixed_perms(group_pos, group_nodes):
         
     dc_perms=[]
     for dcompi in range(len(filtered_graph)):
-        print(dcompi)
+        #print(dcompi)
         nodesi = group_nodes[dcompi]
         n = len(nodesi)
         levels = level_sort(filtered_graph[dcompi])
@@ -330,29 +347,20 @@ def fixed_perms(group_pos, group_nodes):
         res = get_perms(n, nodesi,above_below, levels)
         dc_perms.append(res)
     
-    print("chains", graph_chains[0])
     legal_values = [group_nodes[0+i[0]:n-i[1]] for i in above_below.values()]
-    print("legal value factors")
-    legal_values
         
     #then product across
-    print(dc_perms, '\n')
     canonical_perms = [[elem for s in i for elem in s] for i in list(itertools.product(*dc_perms))]
-    print("canonical perms ", len(canonical_perms))
     return canonical_perms
 
 def comb_labelings(nodes, group_nodes):
     #fencepost
     products =itertools.combinations(nodes, len(group_nodes[0]))
     products = [list(j) for j in products]
-    print(nodes)
-    print("subsets: ", len(np.array(products)), group_nodes[0])
     
     for i in range(1,len(group_nodes)-1):
         subsets=itertools.combinations(nodes, len(group_nodes[i]))
         subsets = [list(j) for j in subsets]
-        print(nodes)
-        print("subsets: ", len(np.array(subsets)), group_nodes[i])
         #sorting here unnecessary
         possible_labels=[[list(np.sort(list(set(j) - set(products[k])))) for j in subsets if len(list(set(j) - set(products[k]))) == len(group_nodes[i])] for k in range(len(products))]
         factors = [[[products[i]], possible_labels[i]] for i in range(len(products))]
@@ -360,26 +368,23 @@ def comb_labelings(nodes, group_nodes):
         products = [[[elem for s in i for elem in s] for i in list(itertools.product(*factors[j]))] for j in range(len(factors))]
         products = [elem for s in products for elem in s]
     
-    print("products: ", len(products), products[0:3])
-    
     #fencepost (saves time of taking combinations)
     remainder = [list(np.sort(list(set(nodes) - set(i)))) for i in products]
     if (remainder != [[]]):
         composite = [products[i]+remainder[i] for i in range(len(products))]
     else:
         composite = products
-    print("remainder: ", len(np.array(remainder)), " ",remainder[0:3])
-    print('composite: ', len(np.array(composite)), " ", composite[0:3], '\n')
+        
     return composite
 
-def get_phi(nodes, group_pos, group_nodes):
+def get_phi(nodes, group_pos, group_nodes, prints=False):
     #canonical perms is the list of permutations allowed for the fixed node labeling 0...n.
     canonical_perms = fixed_perms(group_pos, group_nodes)
-    print("fixed-order (1..n) permutations: ", canonical_perms)
-
     #composite is the list of possible node labelings (up to combination),
     combination_labels = comb_labelings(nodes, group_nodes)
-    print("node labels (up to combination): ", combination_labels)
+    if (prints):
+        print("fixed-order (1..n) permutations: ", len(canonical_perms), canonical_perms[0:3], "\n")
+        print("node labels (up to combination): ", len(combination_labels), combination_labels[0:3])
     
     #permutation list phi is the canonical perms under all node labelings up to combination
     phi = []
@@ -389,3 +394,31 @@ def get_phi(nodes, group_pos, group_nodes):
         phi.append(conversions)
     phi = [np.array(j) for j in [elem for s in phi for elem in s]]
     return phi
+
+def filtrate(perm):
+    sd=[]
+    for i in range(len(perm)-1):
+        dif = perm[i+1]-perm[i]
+        sd.append(int((dif/np.abs(dif) + 1) / 2))
+    return tuple(sd)
+
+def genmat(phi, n, nodes):
+    phi_inv = [perm_inverse(i) for i in phi]
+    A = [0]*(n*n)
+    for i in range(n):
+        for j in range(n):
+            A[n*i + j] = filtrate(tuple(nodes[phi_inv[i]][phi[j]])) #remember order of application
+            #if (!np.isin(uniques,A[n*i + j])[0]):
+    return A
+
+def symsub(A,n,nodes):
+    Aunq = list(set(A))
+    s=sp.symbols("x_0:{}".format(len(Aunq)))
+    
+    if tuple([1]*(nodes-1)) in Aunq:
+        ind = Aunq.index(tuple([1]*(nodes-1)))
+        Aunq[ind], Aunq[0] = Aunq[0], Aunq[ind]
+        
+    subs = {k: v for k, v in zip(Aunq, s)}
+    A = sp.Matrix([subs[i] for i in A]).reshape(n,n)
+    return A

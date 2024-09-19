@@ -1,15 +1,21 @@
 import numpy as np
+from collections import defaultdict, deque
 import itertools
+import sympy as sp
 
-def get_po(factors):
+def get_po(f):
+    factors = f[:]
     if (len(factors) == 1):
         factors.append(0)
-    print(factors)
     finlist = [[*[(i, i+j) for i in range(int(np.sum(factors[0:l-1])+1),int(np.sum(factors[0:l])-1)) for j in range(2,np.min([np.sum(factors[0:l])-i+1,4]))],*[(np.sum(factors[0:l]) -k, j) for k in range(0,np.min([factors[l-1],2])) for j in range(np.sum(factors[0:l])+1,np.sum(factors[0:l])+np.min([3,factors[l]+1]))]] for l in range(1,len(factors))]
     return [elem for s in [elem for s in finlist for elem in s] for elem in s]
     
 def rebuildlists(k):
+    res=[]
     lsts=[[1],[0]]
+    if ((k-1) == 0):
+        return lsts
+        
     for i in range(k-1):
         res=[]
         for j in lsts:
@@ -21,6 +27,12 @@ def rebuildlists(k):
         lsts=res
     return res
 
+def adfunc(fac):
+    out = [rebuildlists(i-1) for i in fac]
+    [[j.append(1) for j in i] for i in out[0:len(out)-1]]
+    out=[[elem for s in i for elem in s] for i in list(itertools.product(*out))]
+    return out
+    
 def set_conv(lst):
     if (len(lst) == 0):
         return set()
@@ -58,9 +70,19 @@ def s_alg(s1,s2, nodes):
         res[i]=0
     return res
 
-def genmat(sdx,n,nodes):
+def fgenmat(sdx,n,nodes):
+    #sdx is bigger than n
     A = [0]*(n*n)
     for i in range(n):
         for j in range(n):
             A[n*i + j] = tuple(s_alg(sdx[i], sdx[j], nodes))
+    return A
+    
+def fsymsub(A,n,nodes, adstrs):
+    s=sp.symbols("x_0:{}".format(len(adstrs)))
+    if tuple([1]*(nodes-1)) in adstrs:
+        ind = adstrs.index(tuple([1]*(nodes-1)))
+        adstrs[ind], adstrs[0] = adstrs[0], adstrs[ind]
+    subs = {k: v for k, v in zip(adstrs, s)}
+    A = sp.Matrix([subs[i] for i in A]).reshape(n,n)
     return A
