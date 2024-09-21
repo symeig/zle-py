@@ -1,4 +1,4 @@
-# ZLEPY - Integer Linear Eigenvalues Toolkit
+# ZLE (Symbolic Eigenvalue Calculation for Integer Linear Eigenvalues)
 
 [![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
