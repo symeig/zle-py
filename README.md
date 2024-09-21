@@ -1,4 +1,4 @@
-# ZLE (Integer-Linear Eigenvalues Toolkit)
+# ZLE (Symbolic Integer-Linear Matrix Toolkit)
 
 [![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
