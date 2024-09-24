@@ -5,7 +5,7 @@
 
 -----
 
-A Python package to aid in integer-linear-eigenvalue matrix generation and symbolic evaluation. Part of the [symeig](https://github.com/symeig) project.
+A Python package to aid in integer-linear eigenvalue matrix generation and symbolic evaluation. Part of the [symeig](https://github.com/symeig) project.
 
 ## Table of Contents
 
