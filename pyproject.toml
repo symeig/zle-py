@@ -5,31 +5,30 @@ build-backend = "hatchling.build"
 [project]
 name = "zlepy"
 dynamic = ["version"]
-description = "Helper library for integer-linear-eigenvalue matrix generation and evaluation."
+description = "Toolkit for integer-linear-eigenvalue matrix generation and evaluation."
 readme = "README.md"
 requires-python = ">=3.8"
-license = "MIT"
+license = "Apache-2.0"
 keywords = ["linear algebra", "matrix", "eigenvalue", "integer-linear eigenvalues", "interpretable spectra"]
 authors = [
-  { name = "Abraham Miller", email = "abraham.r.m@gmail.com" }
+  { name = "Abraham Miller", email = "abraham.r.m@gmail.com" },
+  { name = "Jonny Luntzel", email = "jonny9860@gmail.com" }
 ]
 classifiers = [
-  "Development Status :: 4 - Beta",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
-  "Programming Language :: Python :: Implementation :: CPython",
-  "Programming Language :: Python :: Implementation :: PyPy",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: Apache Software License",
 ]
 dependencies = ["numpy", "sympy", "mpmath"]
 
-[project.urls]
-Documentation = "https://github.com/Gamemackerel/ile-matrix-tools#readme"
-Issues = "https://github.com/Gamemackerel/ile-matrix-tools/issues"
-Source = "https://github.com/Gamemackerel/ile-matrix-tools"
+[project.urls] 
+Homepage = "https://github.com/symeig/zle-py"
+Issues = "https://github.com/symeig/zle-py/issues"
 
 [tool.hatch.version]
 path = "src/zlepy/__about__.py"

@@ -1,11 +1,11 @@
 # ZLE (Symbolic Integer-Linear Matrix Toolkit)
 
-[![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/ile-matrix-tools)
+[![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/zlepy)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/zlepy)
 
 -----
 
-A Python package to aid in integer-linear-eigenvalue matrix generation and evaluation.
+A Python package to aid in integer-linear-eigenvalue matrix generation and symbolic evaluation. Part of the [symeig](https://github.com/symeig) project.
 
 ## Table of Contents
 
@@ -13,8 +13,7 @@ A Python package to aid in integer-linear-eigenvalue matrix generation and evalu
 - [License](#license)
 
 ## Installation
-
-Eventually:
+From PyPI
 ```console
 pip install zlepy
 ```
