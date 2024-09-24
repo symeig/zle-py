@@ -1,7 +1,7 @@
 # ZLE (Symbolic Integer-Linear Matrix Toolkit)
 
-[![PyPI - Version](https://img.shields.io/pypi/v/ile-matrix-tools.svg)](https://pypi.org/project/zlepy)
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/ile-matrix-tools.svg)](https://pypi.org/project/zlepy)
+[![PyPI - Version](https://img.shields.io/pypi/v/zlepy)](https://pypi.org/project/zlepy)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/zlepy)](https://pypi.org/project/zlepy)
 
 -----
 
