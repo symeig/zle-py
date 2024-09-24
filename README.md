@@ -10,6 +10,7 @@ A Python package to aid in integer-linear-eigenvalue matrix generation and symbo
 ## Table of Contents
 
 - [Installation](#installation)
+- [Testing](#testing)
 - [License](#license)
 
 ## Installation
@@ -34,3 +35,7 @@ Specific test file:
 ```
 hatch test tests/test_batch_sizes.py
 ```
+
+## License
+
+This package is OSI approved under the Apache License Version 2.0.
