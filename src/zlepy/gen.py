@@ -1,3 +1,5 @@
+#Note: being debugged (use .mma script if you need a gen.py)
+
 import numpy as np
 import itertools
 from operator import itemgetter
